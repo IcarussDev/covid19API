@@ -25,7 +25,15 @@ https://github.com/CSSEGISandData/COVID-19
 5. Timeseries
 
 
-## How to install (Docker-compose)
+## Branches
+|  Branch           |     Feature                      |              Description                                     |
+| ----------------- | -------------------------------- |  ----------------------------------------------------------- |
+| master            | Docker + Web API                 |            For deploying to a server                         |
+| development       | Docker + Web API                 |            For testing before merging to Master              |
+| docker-redis      | Docker + Redis + Web API         |            For deploying to a server via docker-compose      |
+
+
+## How to install with Docker-compose (Web API + Redis)
 * Run the following command in your command line to run the server
 ```python
 docker-compose up
@@ -46,8 +54,16 @@ services:
       - ./app:/app
     ports:
       - "8000:80"
+    depends_on: 
+      - redis
     environment:
-      - 'RUN=uvicorn main:app'
+      - "RUN=uvicorn main:app"
+  
+  redis:
+    container_name: "covid19_api_redis_container"
+    image: "redis"
+    ports:
+      - "6379:6379"
 ```
 
 ## How to use API (v2)

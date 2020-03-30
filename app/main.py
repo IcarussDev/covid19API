@@ -7,7 +7,9 @@ RUN SERVER: uvicorn main:app --reload
 """
 # Import libraries
 import sys
+import pickle
 import pycountry
+from redis import Redis
 from functools import wraps
 from typing import Dict, Any
 
@@ -23,6 +25,7 @@ from models.covid_model_api_v2 import NovelCoronaAPIv2
 
 # Setup application
 app = FastAPI()
+redis = Redis(host='redis', port=6379)
 
 # Setup CORS (https://fastapi.tiangolo.com/tutorial/cors/)
 app.add_middleware(
@@ -56,8 +59,15 @@ def reload_model_api_v2(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
         global novel_corona_api_v2
-        novel_corona_api_v2 = NovelCoronaAPIv2()
+
+        if not redis.get('api_2_model'):
+            novel_corona_api_v2 = NovelCoronaAPIv2()
+            redis.setex('api_2_model', 3600, pickle.dumps(novel_corona_api_v2))
+        else:
+            novel_corona_api_v2 = pickle.loads(redis.get('api_2_model'))
+
         return func(*args, **kwargs)
+
     return wrapper
 
 
