@@ -16,6 +16,12 @@ This API provides the information regarding '2019 Novel Coronavirus (covid-19)'.
 #### References
 https://github.com/CSSEGISandData/COVID-19
 
+## Branches
+|  Branch           |     Feature                      |              Description                                     |
+| ----------------- | -------------------------------- |  ----------------------------------------------------------- |
+| master            | Docker + Web API                 | For deploying to a server                                    |
+| development       | Docker + Web API                 | For testing before merging to Master                         |
+| docker-redis      | Docker + Redis + Web API         | For deploying to a server with Redis via docker-compose      |
 
 ## Features
 1. The current data (daily updated)
@@ -25,15 +31,7 @@ https://github.com/CSSEGISandData/COVID-19
 5. Timeseries
 
 
-## Branches
-|  Branch           |     Feature                      |              Description                                     |
-| ----------------- | -------------------------------- |  ----------------------------------------------------------- |
-| master            | Docker + Web API                 |            For deploying to a server                         |
-| development       | Docker + Web API                 |            For testing before merging to Master              |
-| docker-redis      | Docker + Redis + Web API         |            For deploying to a server via docker-compose      |
-
-
-## How to install with Docker-compose (Web API + Redis)
+## How to install (Docker-compose)
 * Run the following command in your command line to run the server
 ```python
 docker-compose up
